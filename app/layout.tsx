@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "Quizzy — Challenge Your Knowledge",
+    default: "Quizzy",
     template: "%s | Quizzy"
   },
   description: "Quizzy adalah platform kuis interaktif modern untuk menguji wawasanmu dengan pengalaman yang seru dan kompetitif.",
