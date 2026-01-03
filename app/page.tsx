@@ -128,9 +128,9 @@ export default function Home() {
               <span className="text-sm text-zinc-400">© 2026. All rights reserved.</span>
             </div>
             <div className="flex gap-8 text-xs font-black uppercase tracking-widest text-zinc-400">
-              <a href="#" className="hover:text-black dark:hover:text-white transition-colors">Twitter</a>
-              <a href="#" className="hover:text-black dark:hover:text-white transition-colors">Github</a>
-              <a href="#" className="hover:text-black dark:hover:text-white transition-colors">LinkedIn</a>
+              <a href="https://www.instagram.com/vincentgavrilaa?igsh=emVxNnVvZm80YXZw&utm_source=qr" className="hover:text-black dark:hover:text-white transition-colors">Instagram</a>
+              <a href="https://github.com/VincentGavrila07" className="hover:text-black dark:hover:text-white transition-colors">Github</a>
+              <a href="https://www.linkedin.com/in/vincent-gavrila-apriliano-155246262/" className="hover:text-black dark:hover:text-white transition-colors">LinkedIn</a>
             </div>
           </div>
           <p className="text-sm font-semibold text-zinc-500 dark:text-zinc-400">
