@@ -4,12 +4,15 @@ import { useEffect, useState, useCallback, useRef } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { Quiz, QuizSelection } from "@/app/types/Quiz";
 import { motion, AnimatePresence } from "framer-motion";
+import { usePathname } from "next/navigation";
+
 
 export default function QuizDetailPage() {
   const params = useParams();
   const router = useRouter();
   const quizId = params?.id;
 
+  const pathname = usePathname();
   const [quiz, setQuiz] = useState<Quiz | null>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
@@ -55,10 +58,23 @@ export default function QuizDetailPage() {
   };
 
   useEffect(() => {
+    // Cek apakah route saat ini adalah /quiz/{id}
+    const isQuizRoute = /^\/quiz\/[^/]+$/.test(pathname);
+    
+    // Jika bukan quiz route, jangan mainkan audio
+    if (!isQuizRoute) {
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current = null;
+      }
+      return;
+    }
+
     if (isFinished) {
       if (audioRef.current) audioRef.current.pause();
       return;
     }
+    
     if (!isStarted && preStartCountdown === null) {
       playSound("/audio/lobby.mp3", true);
     } else if (preStartCountdown !== null) {
@@ -66,9 +82,30 @@ export default function QuizDetailPage() {
     } else if (isStarted) {
       playSound("/audio/gameplay.mp3", true);
     }
-    return () => { if (isFinished && audioRef.current) audioRef.current.pause(); };
-  }, [isStarted, preStartCountdown, isFinished, playSound]);
+    
+    return () => { 
+      if (isFinished && audioRef.current) audioRef.current.pause(); 
+    };
+  }, [isStarted, preStartCountdown, isFinished, playSound, pathname]);
   // ------------------------------------------
+
+  useEffect(() => {
+    // Cek apakah route saat ini bukan /quiz/{id}
+    const isQuizRoute = /^\/quiz\/[^/]+$/.test(pathname);
+    
+    if (!isQuizRoute && audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current = null;
+    }
+    
+    return () => {
+      // Cleanup saat unmount
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current = null;
+      }
+    };
+  }, [pathname]);
 
   const submitQuiz = async (finalSelections: QuizSelection[]) => {
     setLoading(true);
